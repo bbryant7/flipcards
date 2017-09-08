@@ -24,61 +24,26 @@ app.use(session({
   saveUninitialized: true
 }))
 
-app.use(function(req, res, next) {
-  console.log('in interceptor');
-  if (req.url === '/login') {
-    next()
-    console.log(1);
-  } else if (req.url === '/register') {
-    next()
-    console.log(4);
-  } else if (!req.session.username) {
-    console.log(2);
-    res.render('login')
 
-  } else {
-    console.log(3);
-    next()
-  }
-})
-
-// login page
-app.post('/login', function(req, res) {
-
-  userData.findOne({username:req.body.username, password:req.body.password })
-  .then( function(results){
-    console.log("we be in here?")
-    console.log(results);
-  })
-  req.session.username = req.body.username
-
-  if (req.session.username === req.body.username) {
-    flipDeck.find().then(function(results) {
-      res.render('home');
-      console.log("correct Password");
-    })
-  } else {
-    res.render('login', {
-      error: "Incorrect username or password."
-    });
-    console.log("wrong password");
-  }
-
-})
 
 
 // get decks: list of links
-// app.get ('/', function(req, res) {
-//   flipDeck.find().then(function(results) {
-//     res.render('home',{decks: results})
-//   })
-//
-//  })
+app.get ('/', function(req, res) {
+  flipDeck.find().then(function(results) {
+    res.render('home',{decks: results})
+  })
 
-// // get specific deck to use (from link)
-app.get ('/deckdetails', function(req, res) {
-  res.render('deckdetails')
+ })
+
+// get specific deck to use (from link)
+app.get ('/deckdetails/:id', function(req, res) {
+  flipDeck.findOne().where({
+      _id: (req.params.id)
+    }).then(function(results) {
+  res.render('deckdetails', {deck: results})
 })
+console.log(req.params.id)
+});
 //
 // create new deck
 // app.post ('/', function(req, res){
