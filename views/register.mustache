@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Register</title>
+  </head>
+  <body>
+    <h1> Create a FlipDeck account </h1>
+    <form action="/newuser" method="post">
+    <p>Choose Username</p><input type="text" name="regusername" placeholder="Username">
+    {{matcherror}}
+    <p>Choose Password</p><input type="password" name="regpassword" placeholder="Password">
+    <p>Confirm Password</p><input type="password" name="confirmpassword" placeholder="Password">
+    <button type="submit">Register</button>
+  </form>
+  </body>
+</html>

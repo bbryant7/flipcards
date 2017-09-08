@@ -7,11 +7,14 @@
     <body>
       <title>Login Page </title>
       <h1> Login </h1>
+      {{error}}
       <form action="/login" method="post">
       <input type="text" name="username" placeholder="Username">
       <input type="password" name="password" placehold="Password">
       <button type="submit">Log in </button>
     </form>
+
+    <h3> <a href="/register">Register Here</a></h3>
 
     </body>
   </html>
