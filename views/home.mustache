@@ -8,6 +8,14 @@
     <h1> Available Decks </h1>
     {{#decks}}
   <a href="/deckdetails/{{id}}"> {{decktitle}}</a>
+  <br>
     {{/decks}}
+
+    <form method="post" action="/newdeck">
+      <input type="text" name="decktitle" placeholder="Deck Title">
+      <input type="text" name="question" placeholder="Card Front">
+      <input type="text" name="answer" placeholder="Card Back">
+      <button type="submit" name="newdeck"> Add Deck </button>
+      </form>
   </body>
 </html>

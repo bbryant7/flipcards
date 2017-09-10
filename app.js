@@ -8,6 +8,7 @@ const bodyParser = require('body-parser');
 const userData = require('./models/userdata.js');
 const flipDeck = require('./models/deck.js');
 const app = express();
+const ObjectId = require('mongodb').ObjectId;
 
 
 app.engine('mustache', mustacheExpress());
@@ -24,56 +25,119 @@ app.use(session({
   saveUninitialized: true
 }))
 
-
-
-
-// get decks: list of links
-app.get ('/', function(req, res) {
-  flipDeck.find().then(function(results) {
-    res.render('home',{decks: results})
-  })
-
- })
-
-// get specific deck to use (from link)
-app.get ('/deckdetails/:id', function(req, res) {
-  flipDeck.findOne().where({
-      _id: (req.params.id)
-    }).then(function(results) {
-  res.render('deckdetails', {deck: results})
-})
-console.log(req.params.id)
-});
-//
-// create new deck
-// app.post ('/', function(req, res){
 // const newDeck = new flipDeck({
-//   decktitle: req.body.title,
+//   decktitle: "Complimentary Colors",
 //   cards: [{
-//     question: req.body.question,
-//     answer: req.body.answer,
+//     question: "green",
+//     answer: "blue",
+//     correct: false
+//   },{
+//     question: "orange",
+//     answer: "brown",
+//     correct: false
+//   },{
+//     question: "purple",
+//     answer: "white",
+//     correct: false
+//   },{
+//     question: "yellow",
+//     answer: "magenta",
 //     correct: false
 //   }]
 // })
 // newDeck.save()
+
+// ++++++++++++++++++++++++++++++++++++++++++
+
+// get decks: list of links [X]
+app.get('/', function(req, res) {
+  flipDeck.find().then(function(results) {
+    res.render('home', {
+      decks: results
+    })
+  })
+})
+
+// get specific deck to use [X]
+app.get('/deckdetails/:id', function(req, res) {
+  flipDeck.findOne().where({
+    _id: (req.params.id)
+  }).then(function(results) {
+    res.render('deckdetails', {
+      deck: results
+    })
+  })
+  console.log(req.params.id)
+});
+//
+// create new deck [X]
+app.post('/newdeck', function(req, res) {
+  const newDeck = new flipDeck({
+    decktitle: req.body.decktitle,
+    cards: [{
+      question: req.body.question,
+      answer: req.body.answer,
+      correct: false
+    }]
+  })
+  newDeck.save().then(function() {
+    return flipDeck.find()
+    console.log('step2')
+  }).then(function(results) {
+    console.log('step3')
+    res.render('home', {
+      decks: results
+    })
+
+  })
+
+});
+
+
+//TODO Routes
+// create new card inside specific deck
+// app.post('/addcard/:id', function(req, res){
+//   console.log("you be in here?")
+//   flipDeck.updateOne({_id: req.params.id},{$push:{question: req.body.newquestion, answer:req.body.newanswer, correct: false}})
+// console.log(req.params.id);
+// console.log(req.body.newquestion);
+// console.log(req.body.newanswer);
+// .then(function(results){
+//   console.log(results);
+// flipDeck.find()})
+// .then(function(results){
+//   res.render('deckdetails', {deck: results})
+// })
+// .catch(function(error){
+//   console.log(error);
+// })
+
+// });
+
+//
+// // edit a card inside specific deck
+// app.put('/editcard', function(req, res){
 //   res.render()
 // })
 
-//TODO Routes
-// // create new card inside specific deck
-// app.post ('/', function(req, res){
-//   res.render()
-// })
-//
-// // edit a card inside specific deck
-// app.put ('/', function(req, res){
-//   res.render()
-// })
-//
 // // delete a card inside specific deck
-// app.delete ('/', function(req, res){
-//   res.render()
-// })
+app.post('/deletecard/:question', function(req, res) {
+  flipDeck.deleteOne().where({
+      question: (req.params.question)
+    })
+    .then(function() {
+      return flipDeck.find()
+    }).then(function(results) {
+      res.render('deckdetails', {
+        deck: results
+      })
+    })
+  console.log(req.params.question);
+  console.log('coleslaw');
+})
+
+// try this, try this with where, then try title
+
 
 
 

@@ -5,19 +5,38 @@
     <title>{{decktitle}}</title>
   </head>
   <body>
+    <a href="/"> View other decks </a>
     {{#deck}}
     <div style="text-align: center">
     <div>
     <h2> {{decktitle}}</h2>
     </div>
 
+    <a href="#"> Play Now! </a>
+
+    <h3> Add card to {{decktitle}} deck </h3>
+    <form action="/addcard/{{id}}" method="post">
+    <input type="text" name="newquestion" placeholder="Card Front">
+    <input type="text" name="newanswer" placeholder="Card Back">
+    <button type="submit" name="addcard"> Add Card </button>
+    </form>
+
+
     <div>
-    <p><span style="font-weight: bold">Cards:</span>
+    <p><span style="font-weight: bold">Cards:</span></p>
       {{#cards}}
+      <div class="card" style="border: 1px solid black;">
       <p>{{question}} :
       {{answer}}</p>
-      <br>
-      {{/cards}} </p>
+      <form action="/editcard/{{id}}" method="">
+      <button type="submit" name="delete"> Edit Card </button>
+      </form>
+      <form action="/deletecard/{{id}}" method="post">
+      <button type="submit" name="delete"> Delete Card </button>
+      </form>
+    </div class="card">
+    <br>
+      {{/cards}}
     </div>
     <form action="/delete/{{id}}" method="post">
     <button type="submit" name="delete"> Delete Deck </button>
