@@ -25,29 +25,7 @@ app.use(session({
   saveUninitialized: true
 }))
 
-// const newDeck = new flipDeck({
-//   decktitle: "Complimentary Colors",
-//   cards: [{
-//     question: "green",
-//     answer: "blue",
-//     correct: false
-//   },{
-//     question: "orange",
-//     answer: "brown",
-//     correct: false
-//   },{
-//     question: "purple",
-//     answer: "white",
-//     correct: false
-//   },{
-//     question: "yellow",
-//     answer: "magenta",
-//     correct: false
-//   }]
-// })
-// newDeck.save()
-
-// ++++++++++++++++++++++++++++++++++++++++++
+ // ++++++++++++++++++++++++++++++++++++++++++
 
 // get decks: list of links [X]
 app.get('/', function(req, res) {
@@ -69,7 +47,8 @@ app.get('/deckdetails/:id', function(req, res) {
   })
   console.log(req.params.id)
 });
-//
+
+
 // create new deck [X]
 app.post('/newdeck', function(req, res) {
   const newDeck = new flipDeck({
@@ -93,6 +72,15 @@ app.post('/newdeck', function(req, res) {
 
 });
 
+app.post('/deletedeck/:id', function(req, res) {
+  flipDeck.deleteOne().where({
+      _id: (req.params.id)
+    }).then(function() {
+      return flipDeck.find()
+    }).then(function(results) {
+      res.render('home', {decks: results})
+    })
+})
 
 //TODO Routes
 // create new card inside specific deck
