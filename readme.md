@@ -12,7 +12,7 @@
 The application must have an API that:
 [] Allows registration
 [] Have HTTP basic authentication
-[] Allows flipcard decks to be created
+[X] Allows flipcard decks to be created
 [] Allows flipcards to be created, edited, and deleted
 ```
 

@@ -72,6 +72,21 @@ app.post('/newdeck', function(req, res) {
 
 });
 
+// create new card inside specific deck
+// TODO - only show card details for this deck
+app.post('/addcard/:id', function(req, res){
+  let newCard = {question: req.body.newquestion,
+    answer: req.body.newanswer,
+    correct:false};
+
+  flipDeck.findOneAndUpdate({_id: req.params.id},{$push:{cards: newCard}}).then(function (){
+    return flipDeck.find()
+  }).then (function(results){
+    res.render("deckdetails", {deck:results})
+  })
+});
+
+// Delete Deck [X]
 app.post('/deletedeck/:id', function(req, res) {
   flipDeck.deleteOne().where({
       _id: (req.params.id)
@@ -82,25 +97,35 @@ app.post('/deletedeck/:id', function(req, res) {
     })
 })
 
-//TODO Routes
-// create new card inside specific deck
-// app.post('/addcard/:id', function(req, res){
-//   console.log("you be in here?")
-//   flipDeck.updateOne({_id: req.params.id},{$push:{question: req.body.newquestion, answer:req.body.newanswer, correct: false}})
-// console.log(req.params.id);
-// console.log(req.body.newquestion);
-// console.log(req.body.newanswer);
-// .then(function(results){
-//   console.log(results);
-// flipDeck.find()})
-// .then(function(results){
-//   res.render('deckdetails', {deck: results})
-// })
-// .catch(function(error){
-//   console.log(error);
-// })
+// TODO - filter through so only one shows at a time
+// Study a deck
+app.get('/study/:id', function(req, res) {
+  flipDeck.findOne().where({
+    _id: (req.params.id)
+  }).limit(1).then(function(results) {
+    res.render('study', {
+      deck: results
+    })
+  })
 
+});
+
+
+//TODO Routes
+
+
+// from tasks:
+// app.put("/api/activities/:id", function(req, res) {
+//     bStat.updateOne({task:req.params.task}, {$push: {stat: req.body}})
+//       .then(function(results){
+//         res.json({status: 'success', stat: results})
+//       })
+//       .catch(function(error){
+//         console.log(error);
+//       })
 // });
+
+
 
 //
 // // edit a card inside specific deck
@@ -109,22 +134,27 @@ app.post('/deletedeck/:id', function(req, res) {
 // })
 
 // // delete a card inside specific deck
-app.post('/deletecard/:question', function(req, res) {
-  flipDeck.deleteOne().where({
-      question: (req.params.question)
-    })
+;
+
+
+app.post('/deletecard/:id', function(req, res) {
+  flipDeck.findById('59b71072ea852e6b1d001c63',function (error) {if (error) console.log(error);
+  console.log("User Found!");
+
+})
     .then(function() {
+      console.log("card id", req.params.id);
+      console.log('coleslaw');
       return flipDeck.find()
     }).then(function(results) {
       res.render('deckdetails', {
         deck: results
       })
     })
-  console.log(req.params.question);
-  console.log('coleslaw');
+  console.log("card id", req.params.id);
+  console.log('potato');
 })
 
-// try this, try this with where, then try title
 
 
 

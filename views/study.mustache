@@ -1,0 +1,25 @@
+<!-- Do findOne for each - will find the first one, push used options to an array -->
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>{{decktitle}}</title>
+  </head>
+  <body>
+    {{#deck}}
+    {{#cards}}
+    {{question}}
+    {{/cards}}
+    {{/deck}}
+    <form action="/next" method="get">
+    <button type="submit" name="next"> Next </button>
+    </form>
+
+    <form action="/next" method="get">
+    <button type="submit" name="next"> mark correct </button>
+    </form>
+
+
+  </body>
+</html>
