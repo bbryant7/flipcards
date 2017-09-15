@@ -31,7 +31,7 @@
       <form action="/editcard/{{id}}" method="">
       <button type="submit" name="delete"> Edit Card </button>
       </form>
-      <form action="/deletecard/{{id}}" method="post">
+      <form action="/deckdetails/{{#deck}}{{id}}{{/deck}}/deletedeck/{{id}}" method="post">
       <button type="submit" name="delete"> Delete Card </button>
       </form>
     </div class="card">

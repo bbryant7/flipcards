@@ -1,5 +1,3 @@
-<!-- Do findOne for each - will find the first one, push used options to an array -->
-
 <!DOCTYPE html>
 <html>
   <head>
@@ -9,16 +7,14 @@
   <body>
     {{#deck}}
     {{#cards}}
-    {{question}}
+    {{answer}}
     <br>
     {{/cards}}
     {{/deck}}
     <form action="/next" method="get">
     <button type="submit" name="next"> Next </button>
     </form>
-    <form action="/findanswer/{{id}}" method="get">
-    <button type="submit" name="next"> Get Answer </button>
-    </form>
+
     <form action="/next" method="get">
     <button type="submit" name="next"> mark correct </button>
     </form>

@@ -100,15 +100,22 @@ app.post('/deletedeck/:id', function(req, res) {
 // TODO - filter through so only one shows at a time
 // Study a deck
 app.get('/study/:id', function(req, res) {
-  flipDeck.findOne().where({
-    _id: (req.params.id)
-  }).limit(1).then(function(results) {
+  flipDeck.findOne().where({_id: (req.params.id)}).then(function(results) {
     res.render('study', {
       deck: results
     })
   })
 
 });
+
+app.get('/findanswer/:id', function(req, res){
+  flipDeck.findOne().where({_id: (req.params.id)}).then(function(results) {
+    res.render('answer', {
+      deck: results
+    })
+  })
+
+  });
 
 
 //TODO Routes
@@ -136,25 +143,23 @@ app.get('/study/:id', function(req, res) {
 // // delete a card inside specific deck
 ;
 
-
-app.post('/deletecard/:id', function(req, res) {
-  flipDeck.findById('59b71072ea852e6b1d001c63',function (error) {if (error) console.log(error);
-  console.log("User Found!");
+// need to do a query INSIDE the post
+app.post('/deckdetails/:id/deletedeck/:id', function(req, res) {
+  // flipDeck.cards.id(req.params.id).remove();
+  console.log(req.params.id);
+  console.log(req.params.id);
 
 })
-    .then(function() {
-      console.log("card id", req.params.id);
-      console.log('coleslaw');
-      return flipDeck.find()
-    }).then(function(results) {
-      res.render('deckdetails', {
-        deck: results
-      })
-    })
-  console.log("card id", req.params.id);
-  console.log('potato');
-})
-
+//
+// EXAMPLE
+// Deck.findById(req.body.deckId)
+//     .then( (deck) => {
+//       deck.cards.id(req.body.cardId).remove();
+//       deck.save()
+//         .then( (result) => {
+//           res.json({status: 'success',
+//                     data: result});
+//         })
 
 
 
